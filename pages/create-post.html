@@ -1,0 +1,60 @@
+<!-- pages/create-post.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Post</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Additional inline CSS for input styling */
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input[type="text"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+    button[type="submit"] {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+    button[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Create a New Post</h1>
+    <form action="/submit-post" method="POST"> <!-- Form action to submit the post -->
+      <div class="form-group">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" placeholder="Enter your username" required>
+      </div>
+      <div class="form-group">
+        <label for="content">Content:</label>
+        <textarea id="content" name="content" placeholder="Enter your post content" required></textarea>
+      </div>
+      <button type="submit">Share</button> <!-- Submit button -->
+    </form>
+  </div>
+</body>
+</html>
