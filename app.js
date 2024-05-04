@@ -4,9 +4,16 @@ const Post = require('./postModel');
 const express = require('express');
 const app = express();
 const path = require('path');
+const savingRoutes = require('./routes/saving');
 
 // Connect to MongoDB
 connectDB();
+
+// Middleware to parse form data
+app.use(express.urlencoded({ extended: true }));
+
+// Use the savingRoutes router for the '/save' path
+app.use('/save', savingRoutes);
 
 // Serve static files from the 'pages' folder
 app.use(express.static(path.join(__dirname, 'pages')));

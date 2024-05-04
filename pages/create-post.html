@@ -44,17 +44,17 @@
 <body>
   <div class="container">
     <h1>Create a New Post</h1>
-    <form action="/submit-post" method="POST"> <!-- Form action to submit the post -->
-      <div class="form-group">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" placeholder="Enter your username" required>
-      </div>
-      <div class="form-group">
-        <label for="content">Content:</label>
-        <textarea id="content" name="content" placeholder="Enter your post content" required></textarea>
-      </div>
-      <button type="submit">Share</button> <!-- Submit button -->
-    </form>
+    <form action="/save/create-post" method="POST"> <!-- Update form action to '/save/create-post' -->
+        <div class="form-group">
+          <label for="username">Username:</label>
+          <input type="text" id="username" name="username" placeholder="Enter your username" required>
+        </div>
+        <div class="form-group">
+          <label for="content">Content:</label>
+          <textarea id="content" name="content" placeholder="Enter your post content" required></textarea>
+        </div>
+        <button type="submit">Share</button> <!-- Submit button -->
+      </form>
   </div>
 </body>
 </html>
