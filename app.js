@@ -9,6 +9,12 @@ const savingRoutes = require('./routes/saving');
 // Connect to MongoDB
 connectDB();
 
+// Set the view engine to EJS
+app.set('view engine', 'ejs');
+
+// Set the directory for template files
+app.set('views', path.join(__dirname, 'views'));
+
 // Middleware to parse form data
 app.use(express.urlencoded({ extended: true }));
 
