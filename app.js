@@ -6,7 +6,6 @@ const app = express();
 // Require route files
 const home = require('./routes/home');
 
-
 // Use routes
 app.use('/', home);
 
