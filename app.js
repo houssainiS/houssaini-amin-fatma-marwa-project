@@ -21,10 +21,12 @@ app.use(express.static(path.join(__dirname, 'pages')));
 // Require route files
 const home = require('./routes/home');
 const createPost = require('./routes/createPost');
+const posts = require('./routes/posts');
 
 // Use routes
 app.use('/', home);
 app.use('/create-post', createPost); // Changed the route path to '/create-post'
+app.use('/posts', posts);
 
 
 // Start server

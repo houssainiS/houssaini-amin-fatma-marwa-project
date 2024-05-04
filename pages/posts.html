@@ -1,0 +1,33 @@
+<!-- posts.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Posts</title>
+</head>
+<body>
+  <h1>All Posts</h1>
+  <ul id="posts-list"></ul>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      const postsList = document.getElementById('posts-list');
+
+      // Make a GET request to retrieve all posts
+      fetch('/')
+        .then(response => response.json())
+        .then(posts => {
+          // Loop through the posts and create list items to display them
+          posts.forEach(post => {
+            const li = document.createElement('li');
+            li.textContent = `Username: ${post.username}, Content: ${post.content}`;
+            postsList.appendChild(li);
+          });
+        })
+        .catch(error => console.error('Error fetching posts:', error));
+    });
+  </script>
+</body>
+</html>
