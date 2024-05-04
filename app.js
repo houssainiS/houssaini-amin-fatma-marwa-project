@@ -1,9 +1,12 @@
 // app.js
-const mongoose = require('mongoose');
+const connectDB = require('./db');
 
 const express = require('express');
 const app = express();
 const path = require('path');
+
+// Connect to MongoDB
+connectDB();
 
 // Serve static files from the 'pages' folder
 app.use(express.static(path.join(__dirname, 'pages')));
