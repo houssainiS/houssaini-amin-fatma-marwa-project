@@ -1,6 +1,6 @@
 // app.js
 const connectDB = require('./db');
-
+const Post = require('./postModel');
 const express = require('express');
 const app = express();
 const path = require('path');
@@ -18,6 +18,7 @@ const createPost = require('./routes/createPost');
 // Use routes
 app.use('/', home);
 app.use('/create-post', createPost); // Changed the route path to '/create-post'
+
 
 // Start server
 const PORT = process.env.PORT || 3000;
