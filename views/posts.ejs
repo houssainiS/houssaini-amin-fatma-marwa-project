@@ -83,15 +83,45 @@
   <div class="container">
     <h1>All Posts</h1>
     <% posts.forEach(post => { %>
-      <div class="post">
-        <div class="action-buttons">
-          <button class="edit-button">Edit</button>
-          <button class="delete-button">Delete</button>
-        </div>
+        <div class="post">
+            <div class="action-buttons">
+              <button class="edit-button">Edit</button>
+              <button class="delete-button" data-post-id="<%= post._id %>">Delete</button>
+            </div>
         <p class="post-content"><%= post.content %></p>
         <p class="post-info">Posted by <span><%= post.username %></span> on <%= new Date(post.createdAt).toLocaleString() %></p>
       </div>
+      
     <% }); %>
   </div>
 </body>
 </html>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const deleteButtons = document.querySelectorAll('.delete-button');
+      deleteButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          const postId = button.dataset.postId;
+          if (confirm('Are you sure you want to delete this post?')) {
+            fetch(`/delete/${postId}`, {
+              method: 'DELETE'
+            })
+            .then(response => {
+              if (response.ok) {
+                // Post deleted successfully, refresh the page or update UI as needed
+                window.location.reload(); // Refresh the page
+              } else {
+                // Handle error response
+                console.error('Error deleting post:', response.statusText);
+              }
+            })
+            .catch(error => {
+              console.error('Error deleting post:', error);
+            });
+          }
+        });
+      });
+    });
+  </script>

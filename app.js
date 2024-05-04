@@ -5,7 +5,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const savingRoutes = require('./routes/saving');
-
+const deleteRoute = require('./routes/delete');
 // Connect to MongoDB
 connectDB();
 
@@ -33,6 +33,8 @@ const posts = require('./routes/posts');
 app.use('/', home);
 app.use('/create-post', createPost); // Changed the route path to '/create-post'
 app.use('/posts', posts);
+// Register the delete route
+app.use('/delete', deleteRoute);
 
 
 // Start server
