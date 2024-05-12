@@ -2,29 +2,28 @@
 
 const express = require('express');
 const router = express.Router();
-const Post = require('../postModel'); // Adjusted path to the Post model
+const Product = require('../postModel');
 
-// Route to handle form submission and save post to database
-router.post('/create-post', (req, res) => {
-  const { username, content } = req.body; // Extract username and content from form data
-
-  // Create a new post document
-  const newPost = new Post({
-    username,
-    content
-  });
-
-  // Save the new post to the database
-  newPost.save()
-    .then(() => {
-      // Redirect to the home page after successful save
-      console.log('saved successfully')
-      res.redirect('/');
-    })
-    .catch((error) => {
-      console.error('Error saving post:', error);
-      res.status(500).send('Error saving post'); // Respond with error status and message
+// Route to handle product creation form submission
+router.post('/', async (req, res) => {
+  try {
+    const { name, price, description } = req.body;
+    
+    // Create a new product instance
+    const newProduct = new Product({
+      name,
+      price,
+      description
     });
+
+    // Save the product to the database
+    await newProduct.save();
+
+    res.redirect('/'); // Redirect to the products page after creation
+  } catch (error) {
+    console.error('Error creating product:', error);
+    res.status(500).send('Error creating product');
+  }
 });
 
 module.exports = router;

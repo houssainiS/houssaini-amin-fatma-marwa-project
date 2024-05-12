@@ -29,12 +29,17 @@ const home = require('./routes/home');
 const createPost = require('./routes/createPost');
 const posts = require('./routes/posts');
 
+
 // Use routes
 app.use('/', home);
 app.use('/create-post', createPost); // Changed the route path to '/create-post'
 app.use('/posts', posts);
 // Register the delete route
 app.use('/delete', deleteRoute);
+
+
+
+///
 
 
 // Start server

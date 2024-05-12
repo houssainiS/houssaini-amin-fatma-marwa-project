@@ -2,21 +2,21 @@
 
 const express = require('express');
 const router = express.Router();
-const Post = require('../postModel');
+const Product = require('../postModel'); // Change the import to your product model
 
-// Route to retrieve all posts from the database
+// Route to retrieve all products from the database
 router.get('/', (req, res) => {
-  // Find all posts in the database
-  Post.find()
-    .then(posts => {
-      if (posts.length === 0) {
-        return res.status(404).send('No posts found');
+  // Find all products in the database
+  Product.find()
+    .then(products => {
+      if (products.length === 0) {
+        return res.status(404).send('No products found');
       }
-      res.render('posts', { posts }); // Render the 'posts' template with the posts data
+      res.render('products', { products }); // Render the 'products' template with the products data
     })
     .catch(error => {
-      console.error('Error retrieving posts:', error);
-      res.status(500).send('Error retrieving posts');
+      console.error('Error retrieving products:', error);
+      res.status(500).send('Error retrieving products');
     });
 });
 

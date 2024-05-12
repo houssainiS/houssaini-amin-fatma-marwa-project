@@ -2,18 +2,18 @@
 
 const express = require('express');
 const router = express.Router();
-const Post = require('../postModel');
+const Product = require('../postModel');
 
-// Route to delete a post by ID
-router.delete('/:postId', async (req, res) => {
-  const postId = req.params.postId;
+// Route to delete a product by ID
+router.delete('/:productId', async (req, res) => {
+  const productId = req.params.productId;
   try {
-    // Find the post by ID and delete it from the database
-    await Post.findByIdAndDelete(postId);
+    // Find the product by ID and delete it from the database
+    await Product.findByIdAndDelete(productId);
     res.sendStatus(204); // Send success status with no content
   } catch (error) {
-    console.error('Error deleting post:', error);
-    res.status(500).send('Error deleting post'); // Respond with error status and message
+    console.error('Error deleting product:', error);
+    res.status(500).send('Error deleting product'); // Respond with error status and message
   }
 });
 
