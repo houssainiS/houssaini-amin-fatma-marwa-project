@@ -1,5 +1,3 @@
-<!-- views/products.ejs -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -59,6 +57,27 @@
     .product-actions button:hover {
       background-color: #0056b3;
     }
+    
+    .filter-container {
+      margin-bottom: 20px;
+    }
+
+    .filter-button {
+      padding: 8px 16px;
+      font-size: 14px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      margin-left: 10px;
+      transition: background-color 0.3s;
+    }
+
+    .filter-button:hover {
+      background-color: #0056b3;
+    }
+
     .search-container {
       margin-bottom: 20px;
     }
@@ -88,96 +107,125 @@
   </style>
 </head>
 <body>
-    <header>
-        <h1>Product Management System</h1>
-        <nav>
-          <button onclick="window.location.href='/';">Home</button>
-          <button onclick="window.location.href='/create-post';">Create Product</button>
-          <button onclick="window.location.href='/posts';">See Products</button>
-        </nav>
-      </header>
-    <div class="container">
-        <!-- Search bar -->
-        <div class="search-container">
-          <input type="text" id="searchInput" class="search-input" placeholder="Search by name...">
-          <button id="searchButton" class="search-button">Search</button>
+  <header>
+    <h1>Product Management System</h1>
+    <nav>
+      <button onclick="window.location.href='/';">Home</button>
+      <button onclick="window.location.href='/create-post';">Create Product</button>
+      <button onclick="window.location.href='/posts';">See Products</button>
+    </nav>
+  </header>
+  <div class="container">
+    <!-- Search bar -->
+    <div class="search-container">
+      <input type="text" id="searchInput" class="search-input" placeholder="Search by name...">
+      <button id="searchButton" class="search-button">Search</button>
+    </div>
+    
+    <!-- Filter buttons -->
+    <div class="filter-container">
+      <button id="filterHigh" class="filter-button">Price > 5000</button>
+      <button id="showAll" class="filter-button">Show All</button>
+      <button id="filterLow" class="filter-button">Price < 5000</button>
+      
+    </div>
+
+    <h1>All Products</h1>
+    <% products.forEach(product => { %>
+      <div class="product">
+        <div class="product-info">
+          <p><strong>Name:</strong> <%= product.name %></p>
+          <p><strong>Price:</strong> <%= product.price %></p>
         </div>
-    
-        <h1>All Products</h1>
-        <% products.forEach(product => { %>
-          <div class="product">
-            <div class="product-info">
-              <p><strong>Name:</strong> <%= product.name %></p>
-              <p><strong>Price:</strong> <%= product.price %></p>
-            </div>
-            <div class="s" style="display: none;">
-                <p><strong><%= product.name %></strong></p>
-              </div>
-            <div class="product-description">
-              <p><strong>Description:</strong> <%= product.description %></p>
-            </div>
-            <div class="product-actions">
-              <form>
-                <button class="delete-button" data-product-id="<%= product._id %>">Delete</button>
-              </form>
-              <button style="margin-top: 5px;" class="edit-button" onclick="window.location.href='/edit/<%= product._id %>'">Edit</button>
-            </div>
-            
-          </div>
-        <% }); %>
+        <div class="s" style="display: none;">
+          <p><strong><%= product.name %></strong></p>
+        </div>
+        <div class="product-description">
+          <p><strong>Description:</strong> <%= product.description %></p>
+        </div>
+        <div class="product-actions">
+          <!-- Add the edit and delete buttons -->
+          <form action="/edit/<%= product._id %>" method="GET">
+            <button type="submit">Edit</button>
+          </form>
+          <form>
+            <button style="margin-top: 5px;" class="delete-button" data-product-id="<%= product._id %>">Delete</button>
+          </form>
+        </div>
       </div>
-    
-      <script>
-        document.addEventListener('DOMContentLoaded', () => {
-    const searchInput = document.getElementById('searchInput');
-    const searchButton = document.getElementById('searchButton');
+    <% }); %>
+  </div>
 
-    searchButton.addEventListener('click', () => {
-      const searchValue = searchInput.value.trim().toLowerCase();
-      console.log('Search Query:', searchValue); // Debugging statement
-      const products = document.querySelectorAll('.product');
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const searchInput = document.getElementById('searchInput');
+      const searchButton = document.getElementById('searchButton');
+      const filterHighButton = document.getElementById('filterHigh');
+      const filterLowButton = document.getElementById('filterLow');
+      const showAllButton = document.getElementById('showAll');
 
-      products.forEach(product => {
-        const productName = product.querySelector('.s').querySelector('strong').textContent.toLowerCase();
-        console.log('Product Name:', productName); // Debugging statement
-        if (productName.includes(searchValue)) {
-          console.log('Match found!'); // Debugging statement
-          product.style.display = 'block'; // Show matching products
-        } else {
-          console.log('No match found!'); // Debugging statement
-          product.style.display = 'none'; // Hide non-matching products
-        }
+      const filterProducts = (condition) => {
+        const products = document.querySelectorAll('.product');
+        products.forEach(product => {
+          const productPrice = parseFloat(product.querySelector('.product-info p:nth-child(2)').textContent.split(' ')[1]);
+          if (condition(productPrice)) {
+            product.style.display = 'block';
+          } else {
+            product.style.display = 'none';
+          }
+        });
+      };
+
+      searchButton.addEventListener('click', () => {
+        const searchValue = searchInput.value.trim().toLowerCase();
+        const products = document.querySelectorAll('.product');
+        products.forEach(product => {
+          const productName = product.querySelector('.s strong').textContent.toLowerCase();
+          if (productName.includes(searchValue)) {
+            product.style.display = 'block';
+          } else {
+            product.style.display = 'none';
+          }
+        });
+      });
+
+      filterHighButton.addEventListener('click', () => {
+        filterProducts(price => price > 5000);
+      });
+
+      filterLowButton.addEventListener('click', () => {
+        filterProducts(price => price < 5000);
+      });
+
+      showAllButton.addEventListener('click', () => {
+        const products = document.querySelectorAll('.product');
+        products.forEach(product => {
+          product.style.display = 'block';
+        });
+      });
+
+      const deleteButtons = document.querySelectorAll('.delete-button');
+      deleteButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          const productId = button.dataset.productId;
+          if (confirm('Are you sure you want to delete this product?')) {
+            fetch(`/delete/${productId}`, {
+              method: 'DELETE'
+            })
+            .then(response => {
+              if (response.ok) {
+                button.closest('.product').remove();
+              } else {
+                console.error('Error deleting product:', response.statusText);
+              }
+            })
+            .catch(error => {
+              console.error('Error deleting product:', error);
+            });
+          }
+        });
       });
     });
-  });
-
-    ///
-    document.addEventListener('DOMContentLoaded', () => {
-  const deleteButtons = document.querySelectorAll('.delete-button');
-  deleteButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      const productId = button.dataset.productId;
-      if (confirm('Are you sure you want to delete this product?')) {
-        fetch(`/delete/${productId}`, {
-          method: 'DELETE'
-        })
-        .then(response => {
-          if (response.ok) {
-            // Product deleted successfully, update UI as needed
-            // For example, remove the deleted product from the DOM
-            button.closest('.product').remove();
-          } else {
-            // Handle error response
-            console.error('Error deleting product:', response.statusText);
-          }
-        })
-        .catch(error => {
-          console.error('Error deleting product:', error);
-        });
-      }
-    });
-  });
-});
-      </script>
+  </script>
 </body>
 </html>

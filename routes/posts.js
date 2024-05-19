@@ -9,6 +9,7 @@ router.get('/', (req, res) => {
   // Find all products in the database
   Product.find()
     .then(products => {
+      
       if (products.length === 0) {
         return res.status(404).send('No products found');
       }
